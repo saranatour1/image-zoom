@@ -1,54 +1,39 @@
 import { LatLngBoundsExpression } from "leaflet"
 import { useMemo, useState } from "react"
 import { Rectangle, useMap } from "react-leaflet"
+import Point from "./Point"
 
-const innerBounds:LatLngBoundsExpression = [
-    [49.505, -2.09],
-    [53.505, 2.09],
-  ]
-  const outerBounds:LatLngBoundsExpression = [
-    [50.505, -29.09],
-    [52.505, 29.09],
-  ]
-  
   const redColor = { color: 'red' }
   const whiteColor = { color: 'white' }
   
-  function SetBoundsRectangles() {
-    const [bounds, setBounds] = useState(outerBounds)
-    const map = useMap()
-  
-    const innerHandlers = useMemo(
-      () => ({
-        click() {
-          setBounds(innerBounds)
-          map.fitBounds(innerBounds)
-        },
-      }),
-      [map],
-    )
-    const outerHandlers = useMemo(
-      () => ({
-        click() {
-          setBounds(outerBounds)
-          map.fitBounds(outerBounds)
-        },
-      }),
-      [map],
-    )
-  
+  interface FormData {
+    point1: number;
+    point2: number;
+    point3: number;
+    point4: number;
+}
+  interface Props{
+    width: number;
+    height:number;
+    points?:FormData;
+  }
+
+
+  function SetBoundsRectangles({width, height , points}:Props) {
+    
+
+    
     return (
       <>
-        <Rectangle
-          bounds={outerBounds}
-          eventHandlers={outerHandlers}
-          pathOptions={bounds === outerBounds ? redColor : whiteColor}
-        />
-        <Rectangle
-          bounds={innerBounds}
-          eventHandlers={innerHandlers}
-          pathOptions={bounds === innerBounds ? redColor : whiteColor}
-        />
+        {allBounds.map((item,idx)=>
+          <Point
+            key={idx}
+            bounds={item}
+            active={bounds === item}
+            setBounds={setBounds}
+          />
+        )}
+        
       </>
     )
   }

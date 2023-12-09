@@ -18,3 +18,14 @@ body{
   margin: 0;
   padding: 0;
 }
+
+
+.leaflet-zoom-animated{
+  /* transform: translate3d(-78px, -74px, 0px);  scale(1) */
+  transition: transform 0.5s ease-in-out 0.3s;
+}
+
+img.leaflet-image-layer.leaflet-zoom-animated{
+  /* z-index: 1; transform: translate3d(42px, 10px, 0px); width: 1493px; height: 718px; */
+  transition: transform 0.5s ease-in-out 0.3s, width 0.3s ease-in-out 0.2s, height 0.3s ease-in-out 0.2s;
+}
