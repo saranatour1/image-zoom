@@ -1,39 +1,18 @@
-import { MapContainer, ImageOverlay, Rectangle } from "react-leaflet";
+import { MapContainer, ImageOverlay } from "react-leaflet";
 import "./App.css";
 import "leaflet/dist/leaflet.css";
-import { Suspense, useEffect, useRef, useState } from "react";
-import { CRS, LatLngBoundsExpression } from "leaflet";
-import "./components/Form.css";
+import { Suspense, useRef } from "react";
+import { CRS } from "leaflet";
+import useImageSize from "./hooks/useImageSize";
 
 function App() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [image, setImage] = useState("https://unsplash.com/photos/-hI5dX2ObAs/download");
-
-  useEffect(() => {
-    const imgaeToBeLoaded = new Image();
-    imgaeToBeLoaded.src = image;
-    imgaeToBeLoaded.onload = () => {
-      setHeight(imgaeToBeLoaded.height);
-      setWidth(imgaeToBeLoaded.width);
-    };
-  }, [image]);
-
-  const allBounds: LatLngBoundsExpression[] = [
-    [
-      [0, 0],
-      [2500, 5200],
-    ],
-  ];
-
-  const [bounds, setBounds] = useState<LatLngBoundsExpression | null>(allBounds[0]);
+  const image = useRef("https://unsplash.com/photos/-hI5dX2ObAs/download");
+  const { width, height } = useImageSize({ imageUrl: image.current });
 
   return (
     <>
       <Suspense fallback={<p>Loading ..</p>}>
-        {height != 0 && width != 0 && (
+        {height !== 0 && width !== 0 && (
           <MapContainer
             center={[height, width]}
             zoom={-2}
@@ -51,7 +30,7 @@ function App() {
             attributionControl={false}
           >
             <ImageOverlay
-              url={image}
+              url={image.current}
               bounds={[
                 [0, 0],
                 [height, width],
