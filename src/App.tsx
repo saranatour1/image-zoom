@@ -30,10 +30,6 @@ function App() {
 
   const [bounds, setBounds] = useState<LatLngBoundsExpression | null>(allBounds[0]);
 
-  useEffect(() => {
-    console.log(bounds, "main", allBounds.indexOf(bounds as LatLngBoundsExpression));
-  }, [bounds, allBounds]);
-
   return (
     <>
       <Suspense fallback={<p>Loading ..</p>}>
